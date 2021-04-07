@@ -1,3 +1,27 @@
+public boolean updateEhdokkaat(Ehdokkaat ehdokkaat) throws SQLException {
+    String sql = "UPDATE ehdokkaat SET sukunimi = ?, etunimi = ?, puolue = ? kotipaikkakunta = ?, ika = ?, miksi_eduskuntaan = ?, mita_asioita_haluat_edistaa = ?, ammatti = ?";
+    sql += " WHERE ehdokas_id = ?";
+    connect();
+     
+    PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+    statement.setString(1, ehdokkaat.getSukunimi());
+    statement.setString(2, ehdokkaat.getEtunimi());
+    statement.setString(3, ehdokkaat.getPuolue());
+    statement.setString(4, ehdokkaat.getKotipaikkakunta());
+    statement.setInt(5, ehdokkaat.getIka());
+    statement.setString(6, ehdokkaat.getMiksi_eduskuntaan());
+    statement.setString(7, ehdokkaat.getMita_asioita_haluat_edistaa());
+    statement.setString(8, ehdokkaat.getAmmatti());
+    statement.setInt(9, ehdokkaat.getEhdokas_id());
+     
+    boolean rowUpdated = statement.executeUpdate() > 0;
+    statement.close();
+    disconnect();
+    return rowUpdated;     
+}
+
+
+// servlet part 
 private void updateEhdokkaat(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         int ehdokas_id; = Integer.parseInt(request.getParameter("ehdokas_id"));
